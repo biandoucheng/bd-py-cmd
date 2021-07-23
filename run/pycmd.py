@@ -72,7 +72,6 @@ def run_command(**kwargs):
     """
     try:
         #导入命令实例
-        print(BD_CMD_MODULE_PATH + '.' + kwargs['cmd'])
         cmd = __import__(BD_CMD_MODULE_PATH + '.' + kwargs['cmd'], fromlist=['None'])
 
         #获取真实的命令执行方法(子命令)
