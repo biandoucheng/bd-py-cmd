@@ -22,8 +22,6 @@ class BaseCommand:
         self.method_dict = {}
         #帮助信息中不展示的方法
         self.protected_methods = {'__init__','__find_method','__alias_this_method','__format_args'}
-        #方法参数匹配正则
-        self.args_regex = re.compile(r':param\s([\w]+):',re.DOTALL)
 
 
 
@@ -39,15 +37,25 @@ class BaseCommand:
         #输出命令的帮助信息
         hps = [self.info]
 
-        for k,v in vars(self.__class__).items():
-            if k in self.protected_methods:
+        class_objects = [self.__class__]
+        for base_class in self.__class__.__bases__:
+            if base_class.__name__ == 'BaseCommand':
                 continue
-            if 'function' in str(v) or 'method' in str(v):
-                hps.append(tab + k + '  ' + v.__doc__.lstrip(tab))
-                if self.__find_method(m,k):
-                    hps = {hps[0],hps[-1]}
-                    hps = list(hps)
-                    break
+            else:
+                class_objects.append(base_class)
+
+        for class_object in class_objects:
+            class_name = class_object.__name__
+            for k, v in vars(class_object).items():
+                k = k.replace(class_name + '_', '')
+                if k in self.protected_methods:
+                    continue
+                if not k.startswith('__') and 'function' in str(v) or 'method' in str(v):
+                    hps.append(tab + k + '  ' + v.__doc__.lstrip(tab))
+                    if self.__find_method(m, k):
+                        hps = {hps[0], hps[-1]}
+                        hps = list(hps)
+                        break
 
 
         self.format_print(infos=hps)
@@ -120,10 +128,11 @@ class BaseCommand:
         """
         @wraps(fun)
         def wrapper(self,**kwargs):
+            args_regex = re.compile(r':param\s([\w]+):',re.DOTALL)
             dc = fun.__doc__
             if not dc:
                 dc = ''
-            all_arg_names = self.args_regex.findall(dc)
+            all_arg_names = args_regex.findall(dc)
             target = {}
             for k in all_arg_names:
                 if k in kwargs:
