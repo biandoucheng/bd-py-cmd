@@ -32,7 +32,7 @@ def help():
     tmp = ['可用的命令有:']
     for fh in os.listdir(BD_CMD_ROOT_DIR):
         if fh.endswith('.py') and os.path.isfile(BD_CMD_ROOT_DIR+'/'+fh) and fh not in ['__init__.py','base.py']:
-            tmp.append(fh.strip('.py'))
+            tmp.append(fh.replace('.py',''))
         if len(tmp) == 10:
             cmders.append(tmp)
             tmp = []
