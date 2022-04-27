@@ -6,7 +6,7 @@ class Command(base.BaseCommand):
         super().__init__(name=__class__.__module__,alias='测试',description='测试命令组件是否可以正常执行')
 
 
-    @base.BaseCommand.format_args
+    @base.BaseCommand.as_cmder
     def test(self,a=1,b=2):
         """
         测试用例
@@ -17,7 +17,7 @@ class Command(base.BaseCommand):
         self.format_print(a,b)
 
 
-    @base.BaseCommand.format_args
+    @base.BaseCommand.as_cmder
     def test2(self):
         """
         测试方法2

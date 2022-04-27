@@ -1,4 +1,5 @@
 import sys,traceback,os
+from types import FunctionType
 
 """
 全局定义，初始化操作
@@ -28,22 +29,46 @@ def help():
     """
     tab = """
     """
-    cmders = [[str(help.__doc__).lstrip(tab)]]
-    tmp = ['可用的命令有:']
+    headers = [[str(help.__doc__).lstrip(tab)],['可用的命令有:']]
+    
+    cmders = []
     for fh in os.listdir(BD_CMD_ROOT_DIR):
-        if fh.endswith('.py') and os.path.isfile(BD_CMD_ROOT_DIR+'/'+fh) and fh not in ['__init__.py','base.py']:
-            tmp.append(fh.replace('.py',''))
-        if len(tmp) == 10:
-            cmders.append(tmp)
-            tmp = []
-    else:
-        if tmp:
-            cmders.append(tmp)
+        if fh.endswith('.py') and os.path.isfile(BD_CMD_ROOT_DIR+'/'+fh) and fh not in ['__init__.py']:
+            cmders.append(fh.replace('.py',''))
 
-    for cms in cmders:
+    cmders = chunk_list(cmders,5)
+    headers.extend(cmders)
+
+    for cms in headers:
         print(tab + ('  '.join(cms)))
 
-
+def chunk_list(ls:list,size:int):
+    """
+    将列表按照seize分组
+    :param ls: list 列表
+    :param size: int 大小
+    :return: list
+    """
+    if not list:
+        return ls
+    
+    if size <= 0:
+        size = 1
+    
+    if size == 1:
+        return [[i] for i in ls]
+    
+    res = []
+    for i in range(len(ls)):
+        index = int(i / size)
+        remain = i % size
+        
+        if remain == 0:
+            res.append([])
+        
+        res[index].append(ls[i])
+    
+    return res
 
 def find_real_cmder(cmd:object,son:str):
     """
@@ -52,17 +77,14 @@ def find_real_cmder(cmd:object,son:str):
     :param son: string 子级命令名称
     :return: object 真正的命令实现类
     """
-    cmder = cmd.__dict__.get(son)
-
-    if not cmder:
-        for parent in cmd.__bases__:
-            cmder = parent.__dict__.get(son)
-            if cmder:
-                break
-
-    return cmder
-
-
+    if not hasattr(cmd,son):
+        return None
+    
+    val = getattr(cmd,son)
+    if not isinstance(val,FunctionType):
+        return None
+    
+    return val
 
 def run_command(**kwargs):
     """
@@ -87,13 +109,11 @@ def run_command(**kwargs):
         else:
             cmder(cmd.Command(),**kwargs)
     except ImportError:
+        print('%s 命令不存在' % kwargs['cmd'])
         print(traceback.format_exc())
-        print('{cmd}命令不存在'.format(cmd=kwargs['cmd']))
     except Exception as e:
-        print('命令执行失败')
+        print('命令 %s 执行失败: %s ' % (kwargs['cmd'],str(e)))
         print(traceback.format_exc())
-
-
 
 def run():
     """
@@ -127,7 +147,17 @@ def run():
 
         run_command(**dic_args)
 
-
+def run_cmd(cmd:str):
+    """
+    运行命令
+    :param cmd: str 要运行的命令 空格分隔
+    :return:
+    """
+    cmd = cmd.strip()
+    cmds = cmd.split(' ')
+    sys.argv.extend(cmds)
+    run()
+    
 
 #这里是命令行入口
 if __name__ == '__main__':
