@@ -109,10 +109,10 @@ def run_command(**kwargs):
         else:
             cmder(cmd.Command(),**kwargs)
     except ImportError:
-        print('%s 命令不存在' % kwargs['cmd'])
+        print('命令不存在')
         print(traceback.format_exc())
     except Exception as e:
-        print('命令 %s 执行失败: %s ' % (kwargs['cmd'],str(e)))
+        print('命令执行失败: %s ' % str(e))
         print(traceback.format_exc())
 
 def run():

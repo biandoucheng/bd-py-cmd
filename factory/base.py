@@ -48,7 +48,7 @@ class BaseCommand:
                     continue
                 
                 if not k.startswith('_') and isinstance(v,FunctionType) and v.__name__.endswith('___bdcmder'):
-                    hps.append(tab + k + '  ' + v.__doc__.lstrip(tab))
+                    hps.append(tab + k + '  ' + str(v.__doc__).lstrip(tab))
 
         self.format_print(infos=hps)
 
