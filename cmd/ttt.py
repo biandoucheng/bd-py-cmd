@@ -1,5 +1,5 @@
-from factory import base
-from factory import ttt
+from .factory import base
+from cmd.script import ttt
 
 class Command(base.BaseCommand,ttt.ttt):
     def __init__(self):

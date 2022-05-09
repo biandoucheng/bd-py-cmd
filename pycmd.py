@@ -9,9 +9,9 @@ from types import FunctionType
 4、设定命令目录
 """
 #定义项目根目录
-BD_PROJECT_ROOT_DIR = os.path.abspath(os.path.pardir)
+BD_PROJECT_ROOT_DIR = os.path.abspath('.')
 #定义命令包名
-BD_CMD_DIR = 'camp'
+BD_CMD_DIR = 'cmd'
 #引入全局包环境
 sys.path.append(BD_PROJECT_ROOT_DIR)
 #设定命令文件夹

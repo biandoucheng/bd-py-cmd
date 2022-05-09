@@ -1,4 +1,4 @@
-from factory import base
+from .factory import base
 
 
 class Command(base.BaseCommand):
