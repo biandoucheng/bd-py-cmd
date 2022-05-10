@@ -3,6 +3,9 @@ from types import FunctionType
 import re
 
 class BaseCommand:
+    # 内部命令
+    __INNER_CMD = {"assistant"}
+    
     def __init__(self,name='',alias='',description=''):
         """
         初始化命令类

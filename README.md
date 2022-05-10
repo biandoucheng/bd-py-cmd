@@ -1,4 +1,4 @@
-# 使用Python3.5 实现的命令行调用方案
+# 使用Python3 实现的命令行调用方案
 ### 创建命令行实例时要继承factory.base.BaseCommand
 ### 并且将命令行类命名为Command
 ### 通过采用factory.base.format_args可以防止意外参数传入
