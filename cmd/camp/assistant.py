@@ -3,29 +3,29 @@ from ..factory import base
 
 class Command(base.BaseCommand):
     def __init__(self):
-        super().__init__(name=__class__.__module__,alias='助手',description='命令助手')
+        super().__init__(name=__class__.__module__,alias='command assistant',description='command to create it from an existing module')
     
     @base.BaseCommand.as_cmder
     def make_cmd(self,pkg:str,name:str,pdir:str,alias:str,desc:str,inner:str='false'):
         """
-        根据脚本创建一个命令
+        Create a command from a module
         
-        :param pkg:   str 脚本包路径 如：a.b.c
-        :param name:  str 脚本名称,不包含.py后缀
-        :param pdir:  str 脚本存放目录
-        :param alias: str 命令别名
-        :param desc:  str 命令描述
+        :param pkg:   str #Module package path such as: a.b.c
+        :param name:  str #Module name, without the .py suffix
+        :param pdir:  str #Script storage relative directory
+        :param alias: str #command alias
+        :param desc:  str #command description
         """
-        # 判断是否与内置命令重名
+        # Determine if it has the same name as a built-in command
         if name in self.INNER_CMD:
-            self.format_print("命令名称与内置命令冲突")
+            self.format_print("Command name conflicts with built-in commands")
             return
         
         fn = "%s.py" % name
         f_fn = pdir.replace("\\","/").rstrip("/") + "/" + fn
         
         if os.path.exists(f_fn):
-            self.format_print("命令已存在")
+            self.format_print("command already exists")
             return
 
         if inner == 'true':
@@ -52,14 +52,15 @@ class Command(base.BaseCommand,{name}.{name}):
         with open(file=f_fn,mode='w',encoding='utf8') as f:
             f.write(tmp.lstrip())
         
-        self.format_print("命令创建成功")
+        self.format_print("Command created successfully")
     
     @base.BaseCommand.as_cmder
     def test(self,a=1,b=2):
         """
-        测试用例
-        :param a: 参数 a
-        :param b: 参数 b
+        test command
+        
+        :param a: any
+        :param b: any
         :return:
         """
         self.format_print(a,b)

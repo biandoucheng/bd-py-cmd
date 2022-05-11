@@ -1,49 +1,35 @@
-# 使用Python3 实现的命令行调用方案
-## 使用方法
-`
-用于将python代码以命令行的形式运行
-    使用：
-    pip install bdpycmd
+# Python command tool
 
-    your_project_root_dir:
-        | your_cmd_dir
-            | your_cmd_1.py
-                from bdpycmd.cmd.factory import base
-                
-                class Command(base.BaseCommand)
-                    def __init__(self):
-                        super().__init__(name=__class__.__module__,alias='xxx',description='xxxx')
-                    
-                    @base.BaseCommand.as_cmder
-                    your_function()
-                        """
-                        你的方法描述信息
-                        
-                        :param p1: str xxx
-                        :param p2: str xxx
-                        ...
-                        """
-            
-            | your_cmd_2.py
-                from your_script_package import your_script_name
-                from bdpycmd.cmd.factory import base
-                
-                class Command(base.BaseCommand,your_script_name.your_script_class):
-                    def __init__(self,):
-                        super().__init__(name=self.__class__.__module__,alias='xxx',description='xxxxxx')
-                        super(base.BaseCommand,self).__init__()        
-    
-        | pycmd.py
-            from  bdpycmd.cmd import *
-            
-            CmdBaseConf.init(
-                root_dir='.',
-                cmd_dir='your_cmd_dir'
-            )
-            
-            if __name__ == '__main__':
-                CmdBaseConf.run()
-    
-    
-    run: python pycmd.py -cmd=xxx -son=xxx -p1=xx -p2=xxx
+## Require
++ python3.5 +
+
+## Description
+`
+It is used to run your Python code as a command line .
+It only works on class methods .
+Add as_cmder decorator on your class method and create command class in command file directory .
+In your project root directory, create a pycmd.py file and import everything under the bdpycmd.pycmd module .
+Add initialization code and execution entry to your pycmd.py .
+Open the command line interface, go to your project root directory (the same level as your pycmd.py file), and run python pycmd.py .
+`
+## Use the example project url
+<https://github.com/biandoucheng/open-example/tree/main/bdpycmd-example>
+
+## Source Codd url
+<https://github.com/biandoucheng/bd-py-cmd>
+
+## Annotation Specification
+`
+When adding comments to the command method, the following rules must be followed, otherwise the command parameters will not be parsed correctly
+
+@base.BaseCommand.as_cmder
+def your_func(p1,p2):
+    """
+    your function`s description
+
+    :param p1: type #describe
+    :param p2: type #describe
+    :return: type
+    """
+    your_func_content ...
 `

@@ -3,17 +3,18 @@ from types import FunctionType
 import re
 
 class BaseCommand:
-    # 内部命令
+    # Internal command
     INNER_CMD = {"assistant"}
     
     def __init__(self,name='',alias='',description=''):
         """
-        初始化命令类
-        :param alias: 该命令类的别名
-        :param description: 对该命令功能的描述
+        Initialize the command
+        
+        :param alias: str #alias for the command
+        :param description: str #a description of the function of the command
         """
         self.name = name.split('.')[-1] + '.Command'
-        self.alias = alias + '命令'
+        self.alias = alias + 'command'
         self.description = description
         self.info = """
         {name}  {alias} {description}
@@ -22,27 +23,28 @@ class BaseCommand:
             alias=self.alias,
             description=self.description
         )
-        #帮助信息中不展示的方法
+        #Methods not shown in the help information
         self.protected_methods = {'__init__','as_cmder'}
 
 
     def help(self,m=''):
         """
-        help    帮助方法    输出帮助信息
+        help    Help method, output help information
         """
         tab = """
         """
         if not isinstance(m,str):
             m = ''
 
-        #输出命令的帮助信息
+        #help output command
         hps = [self.info]
 
-        #处理命令类的继承
+        #Handling inheritance of command classes
         class_objects = [self.__class__]
         self.deep_clss(self.__class__,class_objects)
 
-        #遍历命令类及命令类继承的一级子类的对象成员，找出命令方法
+        #Traverse the object members of the command class and the parent class
+        # inherited by the command class to find the command method
         for class_object in class_objects:
             class_name = class_object.__name__
             for k, v in vars(class_object).items():
@@ -57,10 +59,10 @@ class BaseCommand:
 
     def deep_clss(self,obj:object,clss:list):
         """
-        递归完成继承类查询
+        Recursively complete inherited class query
         
-        :param obj: object 初始类
-        :param clss: list 目标类集合
+        :param obj: object #initial class
+        :param clss: list #target class list
         """
         for it in obj.__bases__:
             if it.__name__ == 'BaseCommand' or it == object:
@@ -71,9 +73,10 @@ class BaseCommand:
 
     def format_print(self,*args,infos:list=[],ft:bool=True):
         """
-        格式化打印
-        :param infos: list 需要打印的信息列表
-        :param ft: bool 首行之外的行加缩进
+        formatted print
+        
+        :param infos: list #List of information to be printed
+        :param ft: bool #Lines beyond the first line are indented
         :return:
         """
         tab = """
@@ -90,10 +93,13 @@ class BaseCommand:
     @staticmethod
     def as_cmder(fun):
         """
-        参数格式化方法 所有可用命令方法均需使用该修饰器 用于过滤掉非法参数
-        注意方法的参数注释必须要规范，否则将不能正确过滤掉参数
-        :param kwargs: dict 字典型参数
-        :return: 方法本身的返回值
+        Parameter formatting method. 
+        All available command methods need to use this modifier to filter out illegal parameters. 
+        Note that the parameter annotation of the method must be standardized, 
+        otherwise the parameters will not be correctly filtered out.
+        
+        :param kwargs: dict #Character typical parameters
+        :return:
         """
         @wraps(fun)
         def wrapper(self,**kwargs):
