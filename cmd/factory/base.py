@@ -4,7 +4,7 @@ import re
 
 class BaseCommand:
     # 内部命令
-    __INNER_CMD = {"assistant"}
+    INNER_CMD = {"assistant"}
     
     def __init__(self,name='',alias='',description=''):
         """

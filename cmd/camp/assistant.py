@@ -17,7 +17,7 @@ class Command(base.BaseCommand):
         :param desc:  str 命令描述
         """
         # 判断是否与内置命令重名
-        if name in self.__INNER_CMD:
+        if name in self.INNER_CMD:
             self.format_print("命令名称与内置命令冲突")
             return
         
