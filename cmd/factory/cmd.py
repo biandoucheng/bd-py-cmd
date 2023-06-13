@@ -32,3 +32,13 @@ class CmdMeta:
                     {self.desc}
                     Number: {self.number}
         """
+
+    def info(self,) -> str:
+        """
+        Describe information
+        """
+        return f"""
+        {self.name} ++++++++++++++++++++++
+                    {self.alias}
+                    {self.desc}
+        """

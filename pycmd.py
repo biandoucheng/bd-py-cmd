@@ -65,8 +65,6 @@ class CmdBaseConf:
         """
         tab = """
         """
-        headers = [str(cls.help.__doc__).lstrip(tab),tab+'List of available commands:']
-        
         cmders = []
         for _,v in cls.__INNER_CMD.items():
             cmders.append(v)
@@ -88,7 +86,9 @@ class CmdBaseConf:
                 numb += 1
                 cmders.append(CmdMeta(**info))
         
-        print(*headers)
+        print(str(cls.help.__doc__).lstrip(tab))
+        print(tab+'List of available commands:')
+
         _cmd = cls.search(cms=cmders)
 
         if not _cmd:
@@ -241,6 +241,7 @@ class CmdBaseConf:
 
         # dictionary parameter determination and input parameter analysis
         if not isinstance(dic_args,dict) or "cmd" not in dic_args:
+            dic_args = {}
             if len(args) < 2:
                 dic_args['cmd'] = 'help'
             else:

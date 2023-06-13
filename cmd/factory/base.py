@@ -24,12 +24,10 @@ class BaseCommand:
         self.name = name.split('.')[-1] + '.Command'
         self.alias = alias + 'command'
         self.description = description
-        self.info = """
-        {name}  {alias} {description}
-        """.format(
-            name=self.name,
-            alias=self.alias,
-            description=self.description
+        self.info = CmdMeta(
+            name=name,
+            alias=alias,
+            desc=description
         )
         #Methods not shown in the help information
         self.protected_methods = {'__init__','as_cmder'}
@@ -45,7 +43,7 @@ class BaseCommand:
             m = ''
 
         #help output command
-        hps = [self.info]
+        hps = []
 
         #Handling inheritance of command classes
         class_objects = [self.__class__]
@@ -63,6 +61,7 @@ class BaseCommand:
                 if not k.startswith('_') and isinstance(v,FunctionType) and v.__name__.endswith('___bdcmder'):
                     hps.append(tab + k + '  ' + str(v.__doc__).lstrip(tab))
 
+        print(self.info.info())
         self.format_print(infos=hps)
 
     def deep_clss(self,obj:object,clss:list):
