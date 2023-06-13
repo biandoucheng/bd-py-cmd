@@ -115,11 +115,21 @@ class BaseCommand:
             dc = fun.__doc__
             if not dc:
                 dc = ''
+            
+            fn = f"""
+        {fun.__name__}
+            """
+            print(fn + dc)
+            
             all_arg_names = args_regex.findall(dc)
             target = {}
             for k in all_arg_names:
                 if k in kwargs:
                     target[k] = kwargs[k]
+                else:
+                    vl = input(k + " = ")
+                    if vl:
+                        target[k] = vl
             return fun(self,**target)
 
         wrapper.__name__ = wrapper.__name__ + '___bdcmder'
