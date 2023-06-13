@@ -40,4 +40,8 @@ def your_func(p1,p2):
     No content input, press Enter directly to reality the next command
     Enter the command number or any range, and relevant commands will be queried based on the provided content
     Enter the '/' symbol to exit the help prompt
+
+2. Support executable methods for directly querying commands during command queries
+    Enter the '.' symbol to exit the help prompt
+    Enter '/' to query the executable method of the selected command
 `
