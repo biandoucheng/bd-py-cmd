@@ -124,7 +124,7 @@ class CmdBaseConf:
             
             if not keyword:
                 for _cmd in cms:
-                    tag_cmd = _cmd
+                    tag_cmd = _cmd.name
                     keyword = input(_cmd.say()).strip()
                     if not keyword:
                         continue
@@ -136,7 +136,7 @@ class CmdBaseConf:
                 _word = keyword
                 for _cmd in cms:
                     if _cmd.search(_word):
-                        tag_cmd = _cmd
+                        tag_cmd = _cmd.name
                         keyword = input(_cmd.say()).strip()
                         if not keyword or keyword == _word:
                             continue

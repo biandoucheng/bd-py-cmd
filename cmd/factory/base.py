@@ -25,6 +25,7 @@ class BaseCommand:
         self.alias = alias + 'command'
         self.description = description
         self.info = CmdMeta(
+            number=0,
             name=name,
             alias=alias,
             desc=description
