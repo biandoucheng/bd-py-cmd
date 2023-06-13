@@ -89,19 +89,37 @@ class CmdBaseConf:
                 cmders.append(CmdMeta(**info))
         
         print(*headers)
-        cls.search(cms=cmders)
+        _cmd = cls.search(cms=cmders)
+
+        if not _cmd:
+            msg = """
+        Target command not found
+            """
+            print(msg)
+        else:
+            cls.run(dic_args={
+                "cmd":_cmd
+            })
     
     @classmethod
-    def search(cls,cms:list):
+    def search(cls,cms:list) -> str:
         """
         Retrieve command list based on keywords
 
         :param cms: list[CmdMeta] Command Meta Information List
+        :return: str Target Command
         """
         keyword = ""
+        tag_cmd = ""
+        checked = "/"
+        exited = "."
         
         while True:
-            if keyword == "/":
+            if keyword == exited:
+                tag_cmd = ""
+                break
+            
+            if keyword == checked:
                 break
             
             if not keyword:
@@ -124,6 +142,8 @@ class CmdBaseConf:
                             break
                 else:
                     break
+        
+        return tag_cmd
 
     @classmethod
     def chunk_list(cls,ls:list,size:int):
@@ -209,28 +229,29 @@ class CmdBaseConf:
             print(traceback.format_exc())
 
     @classmethod
-    def run(cls):
+    def run(cls,dic_args:dict=None):
         """
         Receive command line arguments and execute commands
         
+        :param dic_args: dict 参数字典
         :return:
         """
         help_list = ['help', 'h', 'hp', 'hlp']
-        dic_args = {}
         args = sys.argv
 
-        # parameter to dictionary
-        if len(args) < 2:
-            dic_args['cmd'] = 'help'
-        else:
-            for it in args[1:]:
-                its = str(it).split('=')
-                if len(its) >= 2:
-                    k = its[0].lstrip('-')
-                    dic_args[k] = '='.join(its[1:]).strip('=')
+        # dictionary parameter determination and input parameter analysis
+        if not isinstance(dic_args,dict) or "cmd" not in dic_args:
+            if len(args) < 2:
+                dic_args['cmd'] = 'help'
+            else:
+                for it in args[1:]:
+                    its = str(it).split('=')
+                    if len(its) >= 2:
+                        k = its[0].lstrip('-')
+                        dic_args[k] = '='.join(its[1:]).strip('=')
 
-        if 'cmd' not in dic_args:
-            dic_args['cmd'] = 'help'
+            if 'cmd' not in dic_args:
+                dic_args['cmd'] = 'help'
 
         if dic_args['cmd'] in help_list:
             cls.help()
