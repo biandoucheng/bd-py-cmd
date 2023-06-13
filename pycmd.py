@@ -1,7 +1,7 @@
 import sys,traceback,os
 from types import FunctionType
 from importlib import import_module
-from cmd.factory.cmd import CmdMeta
+from .cmd.factory.cmd import CmdMeta
 
 class CmdBaseConf:
     # project root directory
@@ -76,7 +76,14 @@ class CmdBaseConf:
             if fh.endswith('.py') and os.path.isfile(cls.__CMD_ROOT_DIR+'/'+fh) and fh not in ['__init__.py']:
                 n = fh[:-3]
                 m = import_module(cls.__CMD_MODULE_PATH + "." + n)
-                info = m._BDCMD_DESC_
+                if hasattr(m,"_BDCMD_DESC_"):
+                    info = m._BDCMD_DESC_
+                else:
+                    info = {
+                        "name":n,
+                        "alias":n,
+                        "desc":n
+                    }
                 info["number"] = numb
                 numb += 1
                 cmders.append(CmdMeta(**info))
@@ -85,7 +92,7 @@ class CmdBaseConf:
         cls.search(cms=cmders)
     
     @classmethod
-    def search(cls,cms:list[CmdMeta]):
+    def search(cls,cms:list):
         """
         Retrieve command list based on keywords
 
