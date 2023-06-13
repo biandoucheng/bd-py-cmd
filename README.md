@@ -44,4 +44,7 @@ def your_func(p1,p2):
 2. Support executable methods for directly querying commands during command queries
     Enter the '.' symbol to exit the help prompt
     Enter '/' to query the executable method of the selected command
+
+3. Fix Bugs
+    Fix the issue of execution errors caused by the 'None' parameter in the run dictionary and optimize information output
 `
