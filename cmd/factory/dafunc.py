@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 
 @dataclass
-class CmdMeta:
+class MethodMeta:
     number:int
+    cname:str
     name:str
-    alias:str
     desc:str
 
     def search(self,vl:str="") -> bool:
@@ -27,18 +27,19 @@ class CmdMeta:
         Describe information
         """
         return f"""
-        {self.name} ----------------------
-                    {self.alias}
-                    {self.desc}
-                    Number: {self.number}
+        *** method check **************
+        {self.cname} . {self.name}
+                Number: {self.number}
+                {self.desc}  
         """
+
 
     def info(self,) -> str:
         """
         Describe information
         """
         return f"""
-        {self.name} ++++++++++++++++++++++
-                    {self.alias}
-                    {self.desc}
+        *** method run ******************
+        {self.cname} . {self.name}
+        {self.desc}
         """

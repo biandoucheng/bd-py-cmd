@@ -1,7 +1,8 @@
 import re
 from functools import wraps
 from types import FunctionType
-from ..factory.cmd import CmdMeta
+from .dacmd import CmdMeta
+from .dafunc import MethodMeta
 
 # Command Description Information
 _BDCMD_DESC_ = {
@@ -34,17 +35,15 @@ class BaseCommand:
         self.protected_methods = {'__init__','as_cmder'}
 
 
-    def help(self,m=''):
+    def help(self,**kwargs):
         """
         help    Help method, output help information
         """
         tab = """
         """
-        if not isinstance(m,str):
-            m = ''
 
-        #help output command
-        hps = []
+        #method to run
+        mtds = []
 
         #Handling inheritance of command classes
         class_objects = [self.__class__]
@@ -60,10 +59,76 @@ class BaseCommand:
                     continue
                 
                 if not k.startswith('_') and isinstance(v,FunctionType) and v.__name__.endswith('___bdcmder'):
-                    hps.append(tab + k + '  ' + str(v.__doc__).lstrip(tab))
+                    mtds.append(MethodMeta(
+                        number=0,
+                        cname=class_name,
+                        name=k,
+                        desc=str(v.__doc__).lstrip(tab)
+                    ))
 
         print(self.info.info())
-        self.format_print(infos=hps)
+        _mtd,info = self.search(mtds=mtds)
+
+        if not _mtd:
+            msg = """
+        Target method not found
+            """
+            print(msg)
+        else:
+            print(info)
+            self.__getattribute__(_mtd)()
+    
+
+    @classmethod
+    def search(self,mtds:list):
+        """
+        Retrieve command list based on keywords
+
+        :param mtds: list[MethodMeta] Method Meta Information List
+        :return: str Target Command
+        """
+        keyword = ""
+        tag_func = ""
+        checked = "/"
+        exited = "."
+        info = ""
+        
+        while True:
+            if keyword == exited:
+                tag_func = ""
+                info = ""
+                break
+            
+            if keyword == checked:
+                break
+            
+            if not keyword:
+                for _cmd in mtds:
+                    tag_func = _cmd.name
+                    info = _cmd.info()
+                    keyword = input(_cmd.say()).strip()
+                    if not keyword:
+                        continue
+                    else:
+                        break
+                else:
+                    break
+            else:
+                _word = keyword
+                for _cmd in mtds:
+                    if _cmd.search(_word):
+                        tag_func = _cmd.name
+                        info = _cmd.info()
+                        keyword = input(_cmd.say()).strip()
+                        if not keyword or keyword == _word:
+                            continue
+                        else:
+                            break
+                else:
+                    break
+        
+        return tag_func,info
+
 
     def deep_clss(self,obj:object,clss:list):
         """
@@ -78,6 +143,7 @@ class BaseCommand:
             else:
                 clss.append(it)
                 self.deep_clss(it,clss=clss)
+    
 
     def format_print(self,*args,infos:list=[],ft:bool=True):
         """
@@ -115,11 +181,6 @@ class BaseCommand:
             dc = fun.__doc__
             if not dc:
                 dc = ''
-            
-            fn = f"""
-        {fun.__name__}
-            """
-            print(fn + dc)
             
             all_arg_names = args_regex.findall(dc)
             target = {}

@@ -47,4 +47,11 @@ def your_func(p1,p2):
 
 3. Fix Bugs
     Fix the issue of execution errors caused by the 'None' parameter in the run dictionary and optimize information output
+
+2023.06.14
+1. Support direct execution of methods when querying command executable methods
+    Enter the '.' symbol to exit the help prompt
+    Enter '/' to executable the selected method of the selected command
+2. Fix Bug
+    Fix 'm' parameter error in command method help
 `

@@ -1,7 +1,7 @@
 import sys,traceback,os
 from types import FunctionType
 from importlib import import_module
-from .cmd.factory.cmd import CmdMeta
+from .cmd.factory.dacmd import CmdMeta
 
 class CmdBaseConf:
     # project root directory
@@ -213,10 +213,6 @@ class CmdBaseConf:
 
             #Get command execution method
             cmder = cls.find_real_cmder(cmd=cmd.Command,son=kwargs['son'])
-            if kwargs['son'] == 'help':
-                kwargs = {
-                    'm':kwargs['m']
-                }
 
             #run command
             if not cmder:
@@ -261,8 +257,6 @@ class CmdBaseConf:
         else:
             if 'son' not in dic_args or dic_args['son'] in help_list or not dic_args['son']:
                 dic_args['son'] = 'help'
-                if 'm' not in dic_args:
-                    dic_args['m'] = ''
 
             cls.run_command(**dic_args)
 
