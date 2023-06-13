@@ -1,6 +1,14 @@
+import re
 from functools import wraps
 from types import FunctionType
-import re
+from ..factory.cmd import CmdMeta
+
+# Command Description Information
+_BDCMD_DESC_ = {
+    "name":"base",
+    "alias":"command base class",
+    "desc":"All commands need to inherit from this base class"
+}
 
 class BaseCommand:
     # Internal command

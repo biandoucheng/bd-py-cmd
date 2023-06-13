@@ -33,3 +33,11 @@ def your_func(p1,p2):
     """
     your_func_content ...
 `
+## New features
+`
+2023.06.13
+1. Support command keyword retrieval:
+    No content input, press Enter directly to reality the next command
+    Enter the command number or any range, and relevant commands will be queried based on the provided content
+    Enter the '/' symbol to exit the help prompt
+`

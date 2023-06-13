@@ -1,5 +1,7 @@
 import sys,traceback,os
 from types import FunctionType
+from importlib import import_module
+from cmd.factory.cmd import CmdMeta
 
 class CmdBaseConf:
     # project root directory
@@ -13,7 +15,14 @@ class CmdBaseConf:
     # Internal command import path
     __INNER_CMD_MODEL_PATH = "bdpycmd.cmd.camp"
     # Internal command
-    __INNER_CMD = {"assistant"}
+    __INNER_CMD = {
+        "assistant":CmdMeta(
+            number=0,
+            name="assistant",
+            alias="command base class",
+            desc="Generate execution commands from existing modules"
+        )
+    }
     # has been initialized
     __initialized = False
     
@@ -56,19 +65,58 @@ class CmdBaseConf:
         """
         tab = """
         """
-        headers = [[str(cls.help.__doc__).lstrip(tab)],['List of available commands:']]
+        headers = [str(cls.help.__doc__).lstrip(tab),tab+'List of available commands:']
         
-        cmders = cls.__INNER_CMD
+        cmders = []
+        for _,v in cls.__INNER_CMD.items():
+            cmders.append(v)
         
+        numb = 1
         for fh in os.listdir(cls.__CMD_ROOT_DIR):
             if fh.endswith('.py') and os.path.isfile(cls.__CMD_ROOT_DIR+'/'+fh) and fh not in ['__init__.py']:
-                cmders.add(fh.replace('.py',''))
+                n = fh[:-3]
+                m = import_module(cls.__CMD_MODULE_PATH + "." + n)
+                info = m._BDCMD_DESC_
+                info["number"] = numb
+                numb += 1
+                cmders.append(CmdMeta(**info))
+        
+        print(*headers)
+        cls.search(cms=cmders)
+    
+    @classmethod
+    def search(cls,cms:list[CmdMeta]):
+        """
+        Retrieve command list based on keywords
 
-        cmders = cls.chunk_list(list(cmders),5)
-        headers.extend(cmders)
-
-        for cms in headers:
-            print(tab + ('  '.join(cms)))
+        :param cms: list[CmdMeta] Command Meta Information List
+        """
+        keyword = ""
+        
+        while True:
+            if keyword == "/":
+                break
+            
+            if not keyword:
+                for _cmd in cms:
+                    keyword = input(_cmd.say()).strip()
+                    if not keyword:
+                        continue
+                    else:
+                        break
+                else:
+                    break
+            else:
+                _word = keyword
+                for _cmd in cms:
+                    if _cmd.search(_word):
+                        keyword = input(_cmd.say()).strip()
+                        if not keyword or keyword == _word:
+                            continue
+                        else:
+                            break
+                else:
+                    break
 
     @classmethod
     def chunk_list(cls,ls:list,size:int):
