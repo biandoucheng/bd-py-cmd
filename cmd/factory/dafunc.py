@@ -19,7 +19,7 @@ class MethodMeta:
         if vl.isdigit():
             return vl == str(self.number)
         
-        return vl in self.name or vl in self.alias or vl in self.desc
+        return vl in self.name or vl in self.desc
     
 
     def say(self,) -> str:
