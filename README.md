@@ -54,4 +54,8 @@ def your_func(p1,p2):
     Enter '/' to executable the selected method of the selected command
 2. Fix Bug
     Fix 'm' parameter error in command method help
+3. Fix Bug
+    Fix the issue of command generation assistant generating command errors
+4. Perf
+    Optimize the command generation assistant to make the parameters of the command generation method clearer and easier to use
 `
