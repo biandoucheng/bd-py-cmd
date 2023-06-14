@@ -16,15 +16,16 @@ class Command(base.BaseCommand):
         super().__init__(name=__class__.__module__,alias='command assistant',description='Generate execution commands from existing modules')
     
     @base.BaseCommand.as_cmder
-    def make_cmd(self,mpth:str,cdir:str,cls:str,alias:str,desc:str,inner:str='false'):
+    def make_cmd(self,mpth:str,cdir:str,cls:str,alias:str,desc:str,abs:str="yes",inner:str='false'):
         """
         Create a command from a module
         
-        :param mpth:   str #Module relative path, such as: ./a/b/c
-        :param cdir:   str #Relative Directory, such as: ./cmder
+        :param mpth:  str #Module relative path, such as: ./a/b/c
+        :param cdir:  str #Relative Directory, such as: ./cmder
         :param cls:   str #Class name
         :param alias: str #command alias
         :param desc:  str #command description
+        :param abs:   str #Do you want to forcibly replace existing command files. yes/no
         """
         if cdir == "./cmd" or cdir == "cmd":
             raise Exception("The current command storage directory conflicts with the internal command storage directory")
@@ -42,7 +43,7 @@ class Command(base.BaseCommand):
         c_fn = "%s.py" % cmd
         c_fn = cdir.replace("\\","/").rstrip("/") + "/" + c_fn
 
-        if os.path.exists(c_fn):
+        if abs != "yes" and os.path.exists(c_fn):
             self.format_print("command already exists")
             return
 

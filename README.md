@@ -58,4 +58,6 @@ def your_func(p1,p2):
     Fix the issue of command generation assistant generating command errors
 4. Perf
     Optimize the command generation assistant to make the parameters of the command generation method clearer and easier to use
+5. Perf
+    When using the command assistant to generate commands, it supports forcibly overwriting the parameter 'abs' of existing command files
 `
