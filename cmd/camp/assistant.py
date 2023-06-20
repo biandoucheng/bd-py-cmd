@@ -16,13 +16,14 @@ class Command(base.BaseCommand):
         super().__init__(name=__class__.__module__,alias='command assistant',description='Generate execution commands from existing modules')
     
     @base.BaseCommand.as_cmder
-    def make_cmd(self,mpth:str,cdir:str,cls:str,alias:str,desc:str,abs:str="yes",inner:str='false'):
+    def make_cmd(self,mpth:str,cls:str,cdir:str,cmd:str,alias:str,desc:str,abs:str="yes",inner:str='false'):
         """
         Create a command from a module
         
         :param mpth:  str #Module relative path, such as: ./a/b/c
-        :param cdir:  str #Relative Directory, such as: ./cmder
         :param cls:   str #Class name
+        :param cdir:  str #Relative Directory, such as: ./cmder
+        :param cmd:   str #Command name
         :param alias: str #command alias
         :param desc:  str #command description
         :param abs:   str #Do you want to forcibly replace existing command files. yes/no
@@ -35,7 +36,8 @@ class Command(base.BaseCommand):
         mdu = mpth.replace("/",".")
 
         # Determine if it has the same cmd as a built-in command
-        cmd  = mpth.split("/")[-1]
+        if not cmd:
+            cmd  = mpth.split("/")[-1]
         if cmd in self.INNER_CMD:
             self.format_print("Command name conflicts with built-in commands")
             return

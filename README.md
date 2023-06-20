@@ -64,4 +64,8 @@ def your_func(p1,p2):
 2023.06.15
 1. Fix
     Fix errors in keyword retrieval methods
+
+2023.06.20
+1. Feat assistant
+    Optimizing the Naming of Command File Names. Allow the parameter cmd to be passed in as the name of the command and command file.
 `
