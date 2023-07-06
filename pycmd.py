@@ -2,6 +2,7 @@ import sys,traceback,os
 from types import FunctionType
 from importlib import import_module
 from .cmd.factory.dacmd import CmdMeta
+from bdpyconsts import bdpyconsts as pyconst
 
 class CmdBaseConf:
     # project root directory
@@ -48,6 +49,9 @@ class CmdBaseConf:
         
         # Set command import path
         cls.__CMD_MODULE_PATH = cls.__CMD_DIR.replace("/", ".")
+
+        # Set to non execution mode
+        pyconst._BD_CMD_RUN_NOW = False
     
     
     @classmethod
@@ -257,7 +261,11 @@ class CmdBaseConf:
         else:
             if 'son' not in dic_args or dic_args['son'] in help_list or not dic_args['son']:
                 dic_args['son'] = 'help'
-
+            
+            # Start Command Execution
+            pyconst.unlock()
+            pyconst._BD_CMD_RUN_NOW = True
+            pyconst.locked()
             cls.run_command(**dic_args)
 
 

@@ -68,4 +68,8 @@ def your_func(p1,p2):
 2023.06.20
 1. Feat assistant
     Optimizing the Naming of Command File Names. Allow the parameter cmd to be passed in as the name of the command and command file.
+
+2023.07.06
+1. Feat cmder list
+    Optimized command recognition speed. Dynamically determine whether to import command implementation classes based on whether command methods need to be executed, in order to significantly reduce the number of modules that need to be loaded when listing commands, thereby accelerating the display of command lists
 `
