@@ -72,4 +72,8 @@ def your_func(p1,p2):
 2023.07.06
 1. Feat cmder list
     Optimized command recognition speed. Dynamically determine whether to import command implementation classes based on whether command methods need to be executed, in order to significantly reduce the number of modules that need to be loaded when listing commands, thereby accelerating the display of command lists
+
+2023.07.10
+1. Fix command module import error
+    Fix command execution error `run command failed: module 'cmder.***' has no attribute 'Command' ` caused by delayed loading of command implementation module .
 `

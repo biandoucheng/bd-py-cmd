@@ -213,7 +213,9 @@ class CmdBaseConf:
             modpth = cls.__INNER_CMD_MODEL_PATH if is_inner and __name__ != "__main__" else cls.__CMD_MODULE_PATH
             
             #import command module
-            cmd = __import__(modpth + '.' + kwargs['cmd'], fromlist=['None'])
+            import importlib
+            cmd = importlib.import_module(modpth + '.' + kwargs['cmd'])
+            importlib.reload(cmd)
 
             #Get command execution method
             cmder = cls.find_real_cmder(cmd=cmd.Command,son=kwargs['son'])
