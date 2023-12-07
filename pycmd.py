@@ -135,19 +135,23 @@ class CmdBaseConf:
                     else:
                         break
                 else:
-                    break
+                    if not keyword:
+                        tag_cmd = ""
+                        break
             else:
                 _word = keyword
                 for _cmd in cms:
                     if _cmd.search(_word):
                         tag_cmd = _cmd.name
                         keyword = input(_cmd.say()).strip()
-                        if not keyword or keyword == _word:
+                        if not keyword:
                             continue
                         else:
                             break
                 else:
-                    break
+                    if not keyword:
+                        tag_cmd = ""
+                        break
         
         return tag_cmd
 

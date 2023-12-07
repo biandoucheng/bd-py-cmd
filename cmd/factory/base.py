@@ -112,7 +112,9 @@ class BaseCommand:
                     else:
                         break
                 else:
-                    break
+                    if not keyword:
+                        tag_func = ""
+                        break
             else:
                 _word = keyword
                 for _cmd in mtds:
@@ -120,12 +122,14 @@ class BaseCommand:
                         tag_func = _cmd.name
                         info = _cmd.info()
                         keyword = input(_cmd.say()).strip()
-                        if not keyword or keyword == _word:
+                        if not keyword:
                             continue
                         else:
                             break
                 else:
-                    break
+                    if not keyword:
+                        tag_func = ""
+                        break
         
         return tag_func,info
 

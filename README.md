@@ -76,4 +76,7 @@ def your_func(p1,p2):
 2023.07.10
 1. Fix command module import error
     Fix command execution error `run command failed: module 'cmder.***' has no attribute 'Command' ` caused by delayed loading of command implementation module .
+
+2023.12.07
+1. Fix the error where carriage return causes the command or method to be directly selected for execution when there is only one command or method .
 `
