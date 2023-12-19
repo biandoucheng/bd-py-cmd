@@ -3,6 +3,7 @@ from functools import wraps
 from types import FunctionType
 from .dacmd import CmdMeta
 from .dafunc import MethodMeta
+from bdpyconsts import bdpyconsts as pyconst
 
 # Command Description Information
 _BDCMD_DESC_ = {
@@ -188,10 +189,13 @@ class BaseCommand:
             
             all_arg_names = args_regex.findall(dc)
             target = {}
+            run_ad_cmder = pyconst._BD_CMD_RUN_NOW == True
             for k in all_arg_names:
                 if k in kwargs:
                     target[k] = kwargs[k]
-                else:
+                    continue
+                
+                if run_ad_cmder:
                     vl = input(k + " = ")
                     if vl:
                         target[k] = vl
