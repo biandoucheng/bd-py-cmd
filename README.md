@@ -3,6 +3,12 @@
 ## Require
 + python3.5 +
 
+## Install
+```
+1. pip install bdpycmd
+2. pip install -i https://pypi.org/simple/ bdpycmd==real_version
+```
+
 ## Description
 `
 It is used to run your Python code as a command line .
