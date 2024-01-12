@@ -19,7 +19,7 @@ Add initialization code and execution entry to your pycmd.py .
 Open the command line interface, go to your project root directory (the same level as your pycmd.py file), and run python pycmd.py .
 ```
 
-## 使用方式
+## Usage
 ```
 # Your python project directory
 home/app/your_python_project
