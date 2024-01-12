@@ -205,7 +205,12 @@ command line interpreter
         
 >> name = John
 Hi John I`m unit.demo.say_hi
-`
+
+5. There are the following special symbols during command interaction:
+After entering ".", press the Enter key to exit the command interaction.
+Enter "/" and then press the Enter key to select the current command or method of the command.
+After entering other content, press the Enter key to indicate the search command or command method.
+Before the command or method is selected, press the Enter key without inputting anything to display the next command or method.
 ```
 
 ## Use the example project url
