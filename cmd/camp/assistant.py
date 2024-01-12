@@ -24,7 +24,7 @@ if pyconst._BD_CMD_RUN_NOW == True:
             """
             Create a command from a module
             
-            :param mpth:  str #Module relative path, such as: ./a/b/c
+            :param mpth:  str #Module relative path, such as: a/b/c
             :param cls:   str #Class name
             :param cdir:  str #Relative Directory, such as: ./cmder
             :param cmd:   str #Command name

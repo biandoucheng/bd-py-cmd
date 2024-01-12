@@ -93,6 +93,11 @@ class BaseCommand:
         checked = "/"
         exited = "."
         info = ""
+
+        head_message = """
+        >>> Select Son Method : Methods 
+"""
+        print(head_message)
         
         while True:
             if keyword == exited:
@@ -107,7 +112,7 @@ class BaseCommand:
                 for _cmd in mtds:
                     tag_func = _cmd.name
                     info = _cmd.info()
-                    keyword = input(_cmd.say()).strip()
+                    keyword = input(_cmd.say()+"\n").strip()
                     if not keyword:
                         continue
                     else:
@@ -117,12 +122,14 @@ class BaseCommand:
                         tag_func = ""
                         break
             else:
+                print()
                 _word = keyword
+                keyword = ""
                 for _cmd in mtds:
                     if _cmd.search(_word):
                         tag_func = _cmd.name
                         info = _cmd.info()
-                        keyword = input(_cmd.say()).strip()
+                        keyword = input(_cmd.say()+"\n").strip()
                         if not keyword:
                             continue
                         else:
@@ -131,7 +138,8 @@ class BaseCommand:
                     if not keyword:
                         tag_func = ""
                         break
-        
+                
+        print()
         return tag_func,info
 
 

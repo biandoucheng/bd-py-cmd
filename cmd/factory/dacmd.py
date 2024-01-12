@@ -27,12 +27,11 @@ class CmdMeta:
         Describe information
         """
         return f"""
-        +++ command check ++++++++++++
-        {self.name}
-                Number: {self.number}
-                {self.alias}
-                {self.desc}   
-        """
+        < {self.name} > . Command Info 
+        Number: {self.number}
+        {self.alias}
+        {self.desc}   
+        """.lstrip("\n")
 
     
     def info(self,) -> str:
@@ -40,8 +39,8 @@ class CmdMeta:
         Describe information
         """
         return f"""
-        +++ command run ++++++++++++++
-        {self.name}
-                {self.alias}
-                {self.desc}
-        """
+        >>> Running Parent Command : 
+        < {self.name} >
+        {self.alias}
+        {self.desc}
+        """.lstrip("\n")

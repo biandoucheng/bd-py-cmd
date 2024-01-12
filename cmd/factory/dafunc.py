@@ -27,11 +27,10 @@ class MethodMeta:
         Describe information
         """
         return f"""
-        *** method check **************
-        {self.cname} . {self.name}
-                Number: {self.number}
-                {self.desc}  
-        """
+        [ {self.name} ] of {self.cname} . Method Info 
+        Number: {self.number}
+        {self.desc}  
+        """.lstrip("\n")
 
 
     def info(self,) -> str:
@@ -39,7 +38,7 @@ class MethodMeta:
         Describe information
         """
         return f"""
-        *** method run ******************
-        {self.cname} . {self.name}
+        >>> Running Son Method : 
+        [ {self.name} ] of {self.cname}
         {self.desc}
-        """
+        """.lstrip("\n")

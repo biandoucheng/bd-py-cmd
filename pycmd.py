@@ -91,7 +91,6 @@ class CmdBaseConf:
                 cmders.append(CmdMeta(**info))
         
         print(str(cls.help.__doc__).lstrip(tab))
-        print(tab+'List of available commands:')
 
         _cmd = cls.search(cms=cmders)
 
@@ -118,6 +117,10 @@ class CmdBaseConf:
         checked = "/"
         exited = "."
         
+        head_message = """
+        >>> Selection Parent Command : Commands
+"""
+        print(head_message)
         while True:
             if keyword == exited:
                 tag_cmd = ""
@@ -129,7 +132,7 @@ class CmdBaseConf:
             if not keyword:
                 for _cmd in cms:
                     tag_cmd = _cmd.name
-                    keyword = input(_cmd.say()).strip()
+                    keyword = input(_cmd.say()+"\n").lstrip()
                     if not keyword:
                         continue
                     else:
@@ -139,11 +142,13 @@ class CmdBaseConf:
                         tag_cmd = ""
                         break
             else:
+                print()
                 _word = keyword
+                keyword = ""
                 for _cmd in cms:
                     if _cmd.search(_word):
                         tag_cmd = _cmd.name
-                        keyword = input(_cmd.say()).strip()
+                        keyword = input(_cmd.say()+"\n").strip()
                         if not keyword:
                             continue
                         else:
@@ -152,7 +157,8 @@ class CmdBaseConf:
                     if not keyword:
                         tag_cmd = ""
                         break
-        
+                
+        print()
         return tag_cmd
 
     @classmethod
