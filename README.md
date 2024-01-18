@@ -211,6 +211,12 @@ After entering ".", press the Enter key to exit the command interaction.
 Enter "/" and then press the Enter key to select the current command or method of the command.
 After entering other content, press the Enter key to indicate the search command or command method.
 Before the command or method is selected, press the Enter key without inputting anything to display the next command or method.
+
+6. In addition, you can also run commands in a non-interactive manner, that is, by specifying the -cmd parameter and -son parameter to directly run a command. The example is as follows:
+python ./pycmd.py -cmd=say_hai -son=say -name=John
+Or execute it in the background
+nohup python ./pycmd.py -cmd=say_hai -son=say -name=John > /dev/null 2>&1 &
+However, if the parameter value contains spaces in this execution method, the parameter value should be wrapped in quotes.
 ```
 
 ## Use the example project url
@@ -289,4 +295,9 @@ def your_func(p1,p2):
     Fixed an issue that caused an infinite loop if the search was empty when searching for a command or method based on input.
 2. Optimize help information display
     When searching for commands or methods, the names and methods are displayed more clearly. Commands are wrapped by <command> and methods are wrapped by [method].
+
+1. Fix bugs
+    Fixed an issue where an error would occur when the assistant command assistant creates a command if the mpth or cdir parameter value contains . or ./ in front of it.
+2. README
+    Added example of executing commands non-interactively in README
 ```

@@ -36,7 +36,7 @@ if pyconst._BD_CMD_RUN_NOW == True:
                 raise Exception("The current command storage directory conflicts with the internal command storage directory")
 
             # Extract Command Name
-            mpth = mpth.replace("\\","/").rstrip("/")
+            mpth = mpth.replace("\\","/").lstrip("./").rstrip("/")
             mdu = mpth.replace("/",".")
 
             # Determine if it has the same cmd as a built-in command
@@ -47,7 +47,7 @@ if pyconst._BD_CMD_RUN_NOW == True:
                 return
             
             c_fn = "%s.py" % cmd
-            c_fn = cdir.replace("\\","/").rstrip("/") + "/" + c_fn
+            c_fn = cdir.replace("\\","/").lstrip("./").rstrip("/") + "/" + c_fn
 
             if abs != "yes" and os.path.exists(c_fn):
                 self.format_print("command already exists")

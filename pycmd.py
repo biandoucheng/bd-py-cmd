@@ -20,7 +20,7 @@ class CmdBaseConf:
         "assistant":CmdMeta(
             number=0,
             name="assistant",
-            alias="command base class",
+            alias="command assistant",
             desc="Generate execution commands from existing modules"
         )
     }
@@ -181,7 +181,7 @@ class CmdBaseConf:
         
         res = []
         for i in range(len(ls)):
-            index = int(i / size)
+            index = i // size
             remain = i % size
             
             if remain == 0:
@@ -247,7 +247,7 @@ class CmdBaseConf:
         """
         Receive command line arguments and execute commands
         
-        :param dic_args: dict 参数字典
+        :param dic_args: dict Parameter Dictionary
         :return:
         """
         help_list = ['help', 'h', 'hp', 'hlp']
